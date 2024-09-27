@@ -1,12 +1,14 @@
+import importlib.util
+import os
+import time
+
 import comfy.options
+import folder_paths
+from app_folder.logger import setup_logger
+from comfy.cli_args import args
+
 #comfy.options.enable_args_parsing()
 
-import os
-import importlib.util
-import folder_paths
-import time
-from comfy.cli_args import args
-from app.logger import setup_logger
 
 
 setup_logger(verbose=args.verbose)
@@ -57,12 +59,11 @@ execute_prestartup_script()
 
 # Main code
 import asyncio
+import gc
 import itertools
+import logging
 import shutil
 import threading
-import gc
-
-import logging
 
 if os.name == "nt":
     logging.getLogger("xformers").addFilter(lambda record: 'A matching Triton is not available' not in record.getMessage())
@@ -84,14 +85,14 @@ if args.windows_standalone_build:
     except:
         pass
 
-import comfy.utils
-import yaml
-
-import execution
-import server
-from server import BinaryEventTypes
-import nodes
 import comfy.model_management
+import comfy.utils
+import execution
+import nodes
+import server
+import yaml
+from server import BinaryEventTypes
+
 
 def cuda_malloc_warning():
     device = comfy.model_management.get_torch_device()

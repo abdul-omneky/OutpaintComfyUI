@@ -1,8 +1,10 @@
-from aiohttp import web
 from typing import Optional
-from folder_paths import models_dir, user_directory, output_directory
+
+import app_folder.logger
+from aiohttp import web
 from api_server.services.file_service import FileService
-import app.logger
+from folder_paths import models_dir, output_directory, user_directory
+
 
 class InternalRoutes:
     '''
@@ -34,7 +36,7 @@ class InternalRoutes:
 
         @self.routes.get('/logs')
         async def get_logs(request):
-            return web.json_response(app.logger.get_logs())
+            return web.json_response(app_folder.logger.get_logs())
 
     def get_app(self):
         if self._app is None:
